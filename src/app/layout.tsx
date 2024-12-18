@@ -1,40 +1,30 @@
-import type { Metadata } from "next";
+import { ClerkProvider } from '@clerk/nextjs';
+import { Inter } from 'next/font/google';
 
-import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
-import { ThemeProvider } from "next-themes";
+import { ModalProvider } from '@/providers/modal-provider';
 
-export const metadata: Metadata = {
-  title: "Admin Dashboard",
-  description: "Admin Dashboard",
+import './globals.css';
+
+const inter = Inter({ subsets: ['latin'] });
+
+export const metadata = {
+	title: 'Dashboard',
+	description: 'E-Commerce Dashboard',
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <>
-      <ClerkProvider appearance={{ variables: { colorPrimary: "#874CCC" } }}>
-        <html lang="en" suppressHydrationWarning>
-          <head>
-            <link rel="icon" href="/app/favicon.ico" />
-          </head>
-          <body>
-            <main>
-              <ThemeProvider
-                attribute="class"
-                defaultTheme="system"
-                disableTransitionOnChange
-                enableSystem={false}
-              >
-                {children}
-              </ThemeProvider>
-            </main>
-          </body>
-        </html>
-      </ClerkProvider>
-    </>
-  );
+export default async function RootLayout({
+	children,
+}: {
+	children: React.ReactNode;
+}) {
+	return (
+		<ClerkProvider>
+			<html lang='en'>
+				<body className={inter.className}>
+					<ModalProvider />
+					{children}
+				</body>
+			</html>
+		</ClerkProvider>
+	);
 }
